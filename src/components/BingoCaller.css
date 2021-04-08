@@ -1,0 +1,348 @@
+/*
+  STRUCTURE
+  
+  -local variables
+  -id
+  -class
+*/
+
+html {
+  --actionButton-active-bgcolor : #005;
+  --actionButton-active-borders : inset;
+  --actionButton-active-scale   : scale(0.95, 0.95);
+
+  --actionButton-hover-bgcolor  : #00C;
+  --actionButton-hover-borders  : groove;
+
+  --actionButton-bgcolor        : var(--button-bgcolor-default);
+  --actionButton-borders        : var(--button-borders-default);
+  --actionButton-color          : #FFF;
+  --actionButton-fontSize       : 22px;
+  --actionButton-fontWeight     : bolder;
+  --actionButton-height         : auto;
+  --actionButton-width          : auto;
+
+  --ball-borders            : 1px solid #000;
+  --ball-height             : 50px;
+  --ball-width              : 50px;
+
+  --ballCenter-bgcolor      : #FFF;
+  --ballCenter-borders      : 1px solid #000;
+  --ballCenter-color        : #000;
+  --ballCenter-height       : 40px;
+  --ballCenter-width        : 40px;
+  --ballCenter-fontSize     : 16px;
+
+  --CancelButton-active-bgcolor : #C00;
+  --CancelButton-active-borders : inset;
+  --CancelButton-active-scale   : scale(0.95, 0.95);
+  --CancelButton-hover-bgcolor  : #F00;
+  --CancelButton-hover-borders  : groove;
+
+  --CancelButton-bgcolor    : var(--button-bgcolor-default);
+  --CancelButton-borders    : var(--button-borders-default);
+  --CancelButton-color      : #FFF;
+  --CancelButton-fontSize   : 22px;
+  --CancelButton-fontWeight : bolder;
+  --CancelButton-height     : auto;
+  --CancelButton-width      : auto;
+
+  --card-bgcolor            : #004400;
+  --card-borders            : 3px solid gold;
+  --card-height             : fit-content;
+  --card-width              : fit-content;
+
+  --card-title-bgcolor      : darkblue;
+  --card-title-borders      : 2px solid purple;
+  --card-title-borders-rad  : 5px;
+
+  --col-height              : fit-content;
+  --col-width               : fit-content;
+
+  --colTitle-font-size      : 20px;
+  --colTitle-height         : 40px;
+  --colTitle-width          : 20px;
+  --colTitle-margin         : 0 auto 0 auto;
+  --colTitle-padding        : 0 0 5px 0;
+  
+  --delayBox-bgcolor        : transparent;
+  --delayBox-borders        : none;
+  --delayBox-color          : var(--font-color-default);
+  --delayBox-fontSize       : 30px;
+  --delayBox-fontWeight     : bolder;
+  --delayBox-width          : 50px;
+
+  --delayButton-bgcolor     : var(--button-bgcolor-default);
+  --delayButton-borders     : var(--button-borders-default);
+  --delayButton-color       : var(--font-color-default);
+  --delayButton-fontSize    : 30px;
+  --delayButton-height      : 32px;
+  --delayBox-textAlign      : center;
+  --delayButton-width       : 32px;
+
+  --drawnNum-bgcolor        : #003500;
+  --drawnNum-borders        : 2px solid yellow;
+  --drawnNum-borders-rad    : 5px;
+  --drawnNum-direction      : rtl;
+  --drawnNum-height         : calc(var(--hitSpot-height) + 6px);
+  /* --drawnNum-width          : 99.6%; */
+  --drawnNum-width          : 70%;
+
+  --drawnNum-margin         : 10px auto 10px auto;
+  --drawnNum-padding        : 5px 0 5px 0;
+  --drawnNum-textAlign      : left;
+
+  --hitMark-color           : #FFF;
+  --hitMark-height          : calc(var(--hitSpot-height) - 6px);
+  --hitMark-width           : calc(var(--hitSpot-width) - 6px);
+  --hitMark-bgcolor         : purple;
+  --hitMark-borders         : 1px outset #000;
+  --hitMark-borders-rad     : 50%;
+
+  --hitSpot-borders         : 2px solid #000;
+  --hitSpot-color           : #000;
+  --hitSpot-font-size       : 20px;
+  --hitSpot-height          : 45px;
+  --hitSpot-width           : 45px;
+
+  --mainScreen-bgcolor      : rgb(0, 0, 200);
+  --mainScreen-borders      : none;
+  --mainScreen-height       : fit-content;
+  --mainScreen-width        : auto;
+
+  --playground-bgcolor      : #000066;
+  --playground-borders      : 5px outset #00AAAA;
+  --playground-borders-rad  : 5px;
+  --playground-width        : auto;
+  --playground-padding      : 0;
+  --playground-margin       : 10px 0 0 0;
+
+  --roundDetails-bgcolor    : transparent;
+  --roundDetails-borders    : 1px outset #00FFFF;
+  --roundDetails-textAlign  : center;
+  --roundDetails-width      : 50%;
+
+  --roundOptions-bgcolor      : transparent;
+  --roundOptions-borders      : 1px solid #fff;
+  --roundOptions-borders-rad  : 5px;
+  --roundOptions-height       : fit-content;
+  --roundOptions-width        : 49.50%;
+
+}
+
+#BingoPlayground {
+  background-color  : var(--playground-bgcolor);
+  border            : var(--playground-borders);
+  border-radius     : var(--playground-borders-rad);
+  margin            : var(--playground-margin);
+  padding           : var(--playground-padding);
+  width             : var(--playground-width);
+  display           : inline-block;
+}
+
+/* Bingo card's columns */
+#Col {
+  height            : var(--col-height);
+  width             : var(--col-width);
+  display           : block;
+}
+
+/* Bingo card's columns title */
+#ColTitle {
+  background-color  : var(--card-title-bgcolor);
+  border            : var(--card-title-borders);
+  border-radius     : var(--card-title-borders-rad);
+  font-size         : var(--colTitle-font-size);
+  height            : var(--colTitle-height);
+  margin            : var(--colTitle-margin);
+  padding           : var(--colTitle-padding);
+  width             : var(--colTitle-width);
+  
+  display           : inline-block;
+}
+
+#DrawnNumbers {
+  background-color  : var(--drawnNum-bgcolor);
+  border            : var(--drawnNum-borders);
+  border-radius     : var(--drawnNum-borders-rad);
+  direction         : var(--drawnNum-direction);
+  height            : var(--drawnNum-height);
+  margin            : var(--drawnNum-margin);
+  padding           : var(--drawnNum-padding);
+  text-align        : var(--drawnNum-textAlign);
+  width             : var(--drawnNum-width);
+  
+  display           : inline-block;
+  scroll-behavior   : smooth;
+  
+  overflow-x        : scroll;
+  
+}
+
+/** When a number is called */
+#HitMark {
+  background-color  : var(--hitMark-bgcolor);
+  border            : var(--hitMark-borders);
+  border-radius     : var(--hitMark-borders-rad);
+  color             : var(--hitMark-color);
+  height            : var(--hitMark-height);
+  width             : var(--hitMark-width);
+  z-index           : 3;
+
+  display: inline-block;
+}
+
+#HitBox {
+  background-color  : white;
+  border            : var(--hitSpot-borders);
+  color             : var(--hitSpot-color);
+  font-size         : var(--hitSpot-font-size);
+  height            : var(--hitSpot-height);
+  margin            : 0 auto 0 auto;
+  width             : var(--hitSpot-width);
+  z-index           : 2;
+
+  display           : inline-block;
+}
+
+#RoundDetails {
+  background-color  : var(--roundDetails-bgcolor);
+  border            : var(--roundDetails-borders);
+  border-radius     : 5px;
+  margin            : 0 0 10px 0;
+  padding           : 0 0 5px 0;
+  text-align        : var(--roundDetails-textAlign);
+  width             : var(--roundDetails-width);
+    min-width       : fit-content;
+  height            : fit-content;
+  float             : left;
+}
+
+#RoundDetails p {
+  margin: 5px 5px 5px 5px
+}
+
+#RoundOptions {
+  background-color  : var(--roundOptions-bgcolor);
+  border            : var(--roundOptions-borders);
+  border-radius     : var(--roundOptions-borders-rad);
+  height            : var(--roundOptions-height);
+  width             : var(--roundOptions-width);
+    min-width       : var(--roundOptions-width);
+  display           : inline-block;
+  vertical-align    : top;
+}
+
+#RoundOptions p {
+  margin            : 2.5px auto 2.5px auto;
+  text-align        : center;
+}
+
+.ActionButton {
+  background-color  : var(--actionButton-bgcolor);
+  border            : var(--actionButton-borders);
+  border-radius     : 5px;
+  color             : var(--actionButton-color);
+  font-size         : var(--actionButton-fontSize);
+  font-weight       : var(--actionButton-fontWeight);
+  height            : var(--actionButton-height);
+  margin            : 2.5px;
+  width             : var(--actionButton-width);
+}
+
+.ActionButton:hover {
+  background-color  : var(--actionButton-hover-bgcolor);
+  border-style      : var(--actionButton-hover-borders);
+}
+
+.ActionButton:active {
+  background-color  : var(--actionButton-active-bgcolor);
+  border-style      : var(--actionButton-active-borders);
+  transform         : var(--actionButton-active-scale);
+}
+
+.ActionButton:disabled {
+  background-color  : var(--button-disabled-bgcolor);
+  border-color      : #808080;
+  border-style      : inset;
+  color             : #A9A9A9;
+}
+
+.BingoCard {
+  background-color  : var(--card-bgcolor);
+  border            : var(--card-borders);
+  border-radius     : 5px;
+  height            : var(--card-height);
+  padding           : 2px;
+  width             : var(--card-width);
+
+  display           : inline-block;
+  z-index: 1;
+}
+
+.CancelButton {
+  background-color  : var(--CancelButton-bgcolor);
+  border            : var(--CancelButton-borders);
+  border-radius     : 5px;
+  color             : var(--CancelButton-color);
+  font-size         : var(--CancelButton-fontSize);
+  font-weight       : var(--CancelButton-fontWeight);
+  height            : var(--CancelButton-height);
+  margin            : 2.5px;
+  width             : var(--CancelButton-width);
+}
+
+.CancelButton:hover {
+  background-color  : var(--CancelButton-hover-bgcolor);
+  border-style      : var(--CancelButton-hover-borders);
+}
+
+.CancelButton:active {
+  background-color  : var(--CancelButton-active-bgcolor);
+  border-style      : var(--CancelButton-active-borders);
+  transform         : var(--CancelButton-active-scale);
+}
+
+.CancelButton:disabled {
+  background-color  : var(--button-disabled-bgcolor);
+  border-color      : #808080;
+  border-style      : inset;
+  color             : #A9A9A9;
+}
+
+.DelayBox {
+  background-color  : var(--delayBox-bgcolor);
+  border            : var(--delayBox-borders);
+  color             : var(--delayBox-color);
+  font-weight       : var(--delayBox-fontWeight);
+  font-size         : var(--delayBox-fontSize);
+  text-align        : var(--delayBox-textAlign);
+  width             : var(--delayBox-width);
+
+}
+
+.DelayButton {
+  background-color  : var(--delayButton-bgcolor);
+  border            : var(--delayButton-borders);
+  color             : var(--delayButton-color);
+  font-size         : var(--delayButton-fontSize);
+  height            : var(--delayButton-height);
+  width             : var(--delayButton-width);
+  padding           : 0;
+}
+
+.DelayButton:hover {
+  border-style      : groove;
+}
+
+.DelayButton:active {
+  border-style      : inset;
+  transform         : scale(0.95, 0.95);
+}
+
+.DelayButton:disabled {
+  background-color  : var(--button-disabled-bgcolor);
+  border-color      : #808080;
+  border-style      : inset;
+  color             : #A9A9A9;
+}

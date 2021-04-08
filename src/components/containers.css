@@ -1,0 +1,47 @@
+html {
+  --content-max-width       : 98%;
+  --container-bgcolor       : rgb(0, 0, 100);
+  --container-border-color  : rgb(0, 255, 255);
+  --footer-bgcolor          : rgb(0, 0, 100);
+  --header-bgcolor          : rgb(0, 0, 100);
+  --header-letter-spacing   : 5px;
+}
+
+footer {
+  background-color  : var(--footer-bgcolor);
+}
+
+.Container {
+  background-color  : var(--container-bgcolor);
+}
+
+header {
+  background-color  : var(--header-bgcolor);
+}
+
+footer, header, .Container {
+  /* border            : 1px outset var(--container-border-color); */
+  border-radius     : 10px;
+  box-shadow        : var(--box-shadow);
+  color             : var(--font-color-default);
+  font-size         : var(--font-size-default);
+  margin            : 05px auto 0px auto;
+  padding           : 15px 0px 25px 0px;
+  text-align        : center;
+  width             : var(--app-width);
+  resize            : both;
+}
+
+footer p {
+  margin            : 10px auto 0px auto;
+  text-align        : center;
+  font-size         : var(--font-size-small);
+}
+
+.Content {
+  /* border            : 1px dashed white; */
+  box-shadow        : var(--box-shadow);
+  margin            : 10px auto 0 auto;
+  padding           : 0 0 0 0;
+  width             : var(--content-max-width);
+}

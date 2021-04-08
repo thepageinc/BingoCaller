@@ -1,0 +1,135 @@
+@font-face {
+  font-family: Montserrat;
+  src: url("./fonts/Montserrat-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Montserrat;
+  src: url("./fonts/Montserrat-Bold.ttf");
+  font-weight: bold;
+  font-style: normal;
+}
+
+html {
+  --app-width               : 98%;
+  
+  --body-bgcolor            : rgb(0, 0, 25);
+  --body-margins            : 0 0 0 0;
+
+  --box-shadow              : 0 10px 20px rgba(0,0,0,0.25), 0 6px 6px rgba(0,0,0,0.23);
+
+  --button-bgcolor-default  : gray;
+  --button-borders-default  : 5px outset #00AAAA;
+  --button-disabled-bgcolor : #808080;
+
+  --font-color-default      : rgb(255, 225, 225);
+  --font-color-h1           : rgb(255, 255, 255);
+  --font-color-h2           : rgb(255, 255, 255);
+  --font-color-h3           : rgb(255, 255, 255);
+  --font-color-h4           : rgb(255, 255, 255);
+  --font-color-h5           : rgb(255, 255, 255);
+  --font-color-h6           : rgb(255, 255, 255);
+
+  --font-size-default       : 20px;
+  --font-size-h1            : 45px;
+  --font-size-h2            : 30px;
+  --font-size-h3            : 28px;
+  --font-size-h4            : 26px;
+  --font-size-h5            : 24px;
+  --font-size-h6            : 22px;
+  --font-size-nav           : 18px;
+  --font-size-small         : 14px;
+
+  --header-textTransform    : uppercase;
+  --header-letterSpacing    : 5px;
+  
+  --h1-margins              : 0 0 0 0;
+  --h1-padding              : 0 0 0 0;
+  
+  --h2-margins              : var(--h1-margins);
+  --h2-padding              : var(--h1-padding);
+  
+  --h3-borders              : 1px outset #0FF;
+  --h3-borders-rad          : 5px;
+  --h3-margins              : var(--h1-margins);
+  --h3-padding              : var(--h1-padding);
+  
+  --h4-margins              : var(--h1-margins);
+  --h4-padding              : var(--h1-padding);
+  --h5-margins              : var(--h1-margins);
+  --h5-padding              : var(--h1-padding);
+  --h6-margins              : 5px 0 0 0;
+  --h6-padding              : var(--h1-padding);
+
+  --p-width : 98%;
+}
+
+body {
+  background-color  : var(--body-bgcolor);
+  margin            : var(--body-margins);
+  font-size         : var(--font-size-default);
+  
+  -webkit-font-smoothing  : antialiased;
+  -moz-osx-font-smoothing : grayscale;
+}
+
+code {
+  font-family : source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+                monospace;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-transform    : var(--header-textTransform);
+  letter-spacing    : var(--header-letterSpacing);
+}
+
+h1 {
+  color             : var(--font-color-h1);
+  font-size         : var(--font-size-h1);
+  margin            : var(--h1-margins);
+  padding           : var(--h1-padding);
+}
+
+h2 {
+  color             : var(--font-color-h2);
+  font-size         : var(--font-size-h2);
+  margin            : var(--h2-margins);
+  padding           : var(--h2-padding);
+}
+
+h3 {
+  border            : var(--h3-borders);
+  border-radius     : var(--h3-borders-rad);
+  color             : var(--font-color-h3);
+  font-size         : var(--font-size-h3);
+  margin            : var(--h3-margins);
+  padding           : var(--h3-padding);
+}
+
+h4 {
+  color             : var(--font-color-h4);
+  font-size         : var(--font-size-h4);
+  margin            : var(--h4-margins);
+  padding           : var(--h4-padding);
+}
+
+h5 {
+  color             : var(--font-color-h5);
+  font-size         : var(--font-size-h5);
+  margin            : var(--h5-margins);
+  padding           : var(--h5-padding);
+}
+
+h6 {
+  color             : var(--font-color-h6);
+  font-size         : var(--font-size-h6);
+  margin            : var(--h6-margins);
+  padding           : var(--h6-padding)
+}
+
+p {
+  text-align        : justify;
+  width             : var(--p-width);
+}

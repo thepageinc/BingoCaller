@@ -1,0 +1,32 @@
+.Ball {
+  /* background color sent using inline styling */
+  border            : var(--ball-borders);
+  border-radius     : 50%;
+  margin            : 0 1.5px 0 1.5px;
+  height            : var(--ball-height);
+  width             : var(--ball-width);
+  z-index           : 1;
+  display           : inline-block;
+}
+
+.BallCenter {
+  background-color  : var(--ballCenter-bgcolor);
+  border            : var(--ballCenter-borders);
+  border-radius     : 50%;
+  color             : var(--ballCenter-color);
+  height            : var(--ballCenter-height);
+  margin            : 5px auto 0 auto;
+  width             : var(--ballCenter-width);
+  font-size         : var(--ballCenter-fontSize);
+  z-index           : 2;
+
+  display           : inline-block;
+}
+
+.BallCenter p {
+  font-weight       : bolder;
+  margin            : 0 0 0 0;
+  padding           : 0;
+  text-align        : center;
+  width             : 100%;
+}
