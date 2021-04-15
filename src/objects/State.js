@@ -1,9 +1,11 @@
 /**
  * @file          State.js
- * @fileoverview  contains all constants and function to return the initial state.
+ * @fileoverview  contains the state data structure and initial values.
+ * 
+ * @exports InitialState default
  */
 
-import { CALLER_DELAY, ROUND_HEADERS, ROUND_STATUS } from './Constants';
+import { ACTION, CALLER_DELAY, ROUND_HEADERS } from './Constants';
 import getCardObject from '../objects/objBingoCard';
 
 /**
@@ -13,7 +15,7 @@ import getCardObject from '../objects/objBingoCard';
  */
  const ButtonList = {
   cancel      : true,
-  dropDelay   : false,
+  dropDelay   : true,
   endRound    : true,
   go          : false,
   pause       : true,
@@ -27,8 +29,6 @@ import getCardObject from '../objects/objBingoCard';
  * @summary     used to initiate the state's 'round' property.
  */
 const InitialRound = {
-  status          : ROUND_STATUS.noRound,   // Round status
-  shuffledBalls   : [],                     // Shuffled list of balls.
   ballsCalled     : [],                     // List of balls called during the round.
   callerPosition  : 0,                     // Store the next ball to call
   dateTimeEnd     : '',                     // Timestamp round ended (text format).
@@ -37,6 +37,7 @@ const InitialRound = {
   header          : ROUND_HEADERS.next,     // Header of the Round's details box
   paused          : 0,                      // Amount of time game was paused.
   roundID         : '',                     // Round's unique ID.
+  shuffledBalls   : [],                     // Shuffled list of balls.
   timeElapsed     : '0:00',                 // To display the time elapsed
   timestampStart  : 0,                      // Timestamp round started (Date.Now()).
   timestampEnd    : '',                     // Timestamp round ended (Date.Now()).
@@ -53,6 +54,7 @@ const InitialRound = {
  const InitialState = {
   card          : getCardObject(),
   round         : InitialRound,
+  lastAction    : ACTION.idle,
   isDisabled    : ButtonList
 };
 

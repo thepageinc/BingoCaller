@@ -1,27 +1,30 @@
 /**
- * CANCEL     : Ends the round and reinitializes the screen, logs the round with
- *              status canceled (not compiled in the user's official stats).
- * END ROUND  : Ends the round, displays stats of the round and logsthe round as
- *              ENDED BY USER (compiled in user's official stats).
- * GO         : starts a new round.
- * PAUSE      : Pauses the round.
- * RESET      : Reinitialize the playground for a new round.
+ * @module        BingoCaller
+ * @file          BingoCaller.js
+ * @fileoverview  Bingo caller's main screen component.
+ * @description   by calling the BingoCaller component, the entire Bingo caller app starts.
  * 
- * @todo  use startCaller.js file for the Bingo caller.
+ * @exports BingoCaller
  * 
+ * @todo  URGENT - the page's styling.. the Bingo Card's page's styling, not mine.. *sigh*
+ * @todo  3 seconds countdown before starting the round.
+ * @todo  pop-up confirmation to end a round.
+ * @todo  the raise and drop delay buttons aren't settled properly on reseting; doesn't check the delay.
+ * @todo  Text-to-Speech.
+ * @todo  #B4D001 - review called ball display.
+ * @todo  separate methods/functions from component, keeps only updating state's functions in component's class.
+ * @todo  logging (very last).
  */
 
-// All custom objects are imported at the top.
-import {  ALL_BALLS, 
-          CALLER_DELAY, 
-          ERROR, ENDING_STATE, 
-          ROUND_HEADERS, ROUND_STATUS } from '../objects/Constants';
+// All custom objects and constants are imported at the top.
+import {  ACTION, ALL_BALLS, 
+          ENDING_STATE, 
+          ROUND_HEADERS } from '../objects/Constants';
 
 import InitialState   from '../objects/State';
 
 import { Component }  from 'react';
 import uuid           from 'react-uuid';
-
 
 // All components are loaded at the top of the module.
 import Ball           from './Ball';
@@ -31,20 +34,18 @@ import CardTemplate   from './CardTemplate';
 import GetDate        from '../modules/DateTime';
 
 // All custom functions are loaded at the top of the module.
+import changeDelay            from '../functions/changeDelay';
 import getLetterOf            from '../functions/getLetterOf';
 import reinitializeCard       from '../functions/reinitializeCard';
 import reinitializeRoundStats from '../functions/reinitializeRoundStats';
 import setButtons             from '../functions/setButtons';
 import shuffleBalls           from '../functions/shuffleBalls';
+import updateCard             from '../functions/updateCard';
 
 import './BingoCaller.css';
 
-let CallerTimer = null;
-
-const updateCardOptions = {
-  num   : 0,
-  state : InitialState
-};
+let CallerTimer   = undefined;
+let ElapsedTimer  = undefined;
 
 /**
  * @class     BingoCaller
@@ -54,110 +55,185 @@ const updateCardOptions = {
  */
 class BingoCaller extends Component {
   state                   = InitialState
+  changeDelay             = changeDelay;
   reinitializeRoundStats  = reinitializeRoundStats;
   reinitializeCard        = reinitializeCard;
   setButtons              = setButtons;
   shuffleBalls            = shuffleBalls;
+  updateCard              = updateCard;
 
   /**
+   * @async
    * @event       cancelRound
+   * @summary     handles the CANCEL button.
    * @description cancel an active round.
    * 
-   * @processing kills the game time and caller's delay timers. also
-   * reinitializes all datas, preparing the process to settle a new round.
+   * @return {Promise<void>} voided Promise object.
+   * 
+   * @processing sets the state's last action to 'CANCEL', terminates the round
+   * and resets the round's statistics; making the app ready for a new round.
    * 
    */
-  cancelRound = () => {
-    this.stopCaller();
-    this.resetRound();
+  butCancel = async () => {
+    return new Promise(async resolve => {
+      const sState = { ...this.state };
+  
+      sState.lastAction = ACTION.cancel;
+  
+      await this.terminateRound({ state: sState });
+      await this.resetRound({ state: sState });
+  
+      this.setState(sState);
+
+      resolve();
+    });
   }
 
   /**
-   * @method      endRound
-   * @description ends a round.
+   * @async
+   * @event       butEndRound
+   * @summary     handles the END ROUND button.
+   * @description ends a round after confirmation.
    * 
-   * @param {Event} [ev] used when triggered by component's event.
+   * @returns {Promise<void>} voided Promise object.
    * 
-   * @processing starts by displaying a confirmation splash window and pausing
-   * all round's elements until confirmation. If ending round is not confirmed
-   * the round continues as it should. Otherwise, timer is stopped, round's
-   * stats are compiled and logged. The RESET, DROP DELAY and RAISE DELAY
-   * buttons are enabled, the PAUSE, END ROUND and CANCEL buttons are all 
-   * disabled. The way of ending the round is set to 'BY USER', the header of
-   * the round's details box changes for 'LAST ROUND'. The round status is 
-   * switched to 'NO ROUND IN PLAY' For the logging, a text and numeric 
-   * timestamps are retrieved and stored into the round's details.
+   * @processing starts by displaying a confirmation pop-up. If ending the round
+   * is confirmed : the last action property is set to 'END', the round's ending
+   * way is set to 'END BY USER', and the round is terminated, waiting for
+   * another action from the user.
    * 
-   * Compute : total time of the round : timestamp ended - timstamp started. The
-   * result is in milliseconds.
+   * @todo pop-up for confirmation.
    * 
-   * @todo update code to use with `setButtons();`
-   * @todo logging.
    */
-  endRound = ev => {
+  butEndRound = async () => {
+    return new Promise (async resolve => {
+      const sState  = { ...this.state };
+      const Round   = sState.round;
+      
+      sState.lastAction = ACTION.end;
+      Round.wayEnded    = ENDING_STATE.byUser;
+      
+      await this.terminateRound({ state: sState });
+  
+      this.setState(sState);
 
-    const M = { ...this.state };
-    const R = M.round;
-
-    M.isDisabled.dropDelay   = false;
-    M.isDisabled.endRound    = true;
-    M.isDisabled.pause       = true;
-    M.isDisabled.raiseDelay  = false;
-    M.isDisabled.reset       = false;
-
-    R.header        = ROUND_HEADERS.last;
-    R.dateTimeEnd   = GetDate.getShort();
-    R.status        = ROUND_STATUS.noRound;
-    R.timestampEnd  = Date.now();
-    R.totalTime     = (R.timestampEnd - R.timestampStart)
-    
-    if (ev) 
-      R.wayEnded      = ENDING_STATE.byUser;
-
-    this.stopCaller();
-
-    this.setState({ M });
-    // add logging here //
+      resolve();
+    });
   }
 
   /**
-   * @event       goContinue
-   * @description prepares a new bingo round OR continues a paused game.
+   * @async
+   * @event       butGo
+   * @summary     handles the GO button.
+   * @description starts a new round or continues an exisitng round.
    * 
-   * @returns {void}
+   * @returns {Promise<void>} voided Promise object.
    * 
-   * @processing two roles : first, prepares and starts a new round and second,
-   * continue a paused round. When new round, it retrieves a unique id to assign
-   * it to the round, retrieves the shuffled list of numbers and tmporary stores
-   * all details of the round. Finally, the Bingo caller is started.
-   * 
-   * To log : round number, timestamp, round time, shuffled balls list, balls called,
-   * 
-   * @todo Continue paused round.
-   * @todo Round's storing and logging.
+   * @processing the first step will be to find out if it's a new round or a
+   * paused round to continue. In case of a new round, numbers are shuffled, the
+   * timestamps are retrieved, a unique id is assigned to the round, the header
+   * of the round's details box is changed to 'NOW PLAYING', the round's status
+   * is changed for 'NOW PLAYING', caller and round's timer are started.
    * 
    */
-  goContinue = () => {
-    const M           = { ...this.state };
-    const Round       = M.round;
-    
-    
-    if (Round.status !== ROUND_STATUS.paused) {
-      this.shuffleBalls({ state: M });
-      Round.dateTimeStart    = GetDate.getShort()
-      Round.roundID          = uuid();
-      Round.timestampStart   = Date.now();
-    }
-    
-    Round.header = ROUND_HEADERS.nowPlaying;
-    Round.status = ROUND_STATUS.active;
-    
-    this.setButtons({ state: M });
+  butGo = () => {
+    return new Promise(async resolve => {
+      const sState  = { ...this.state };
+      const Round   = sState.round;
+      
+      if (sState.lastAction !== ACTION.pause) {
+        await this.shuffleBalls({ state: sState });
+        Round.dateTimeStart    = GetDate.getShort()
+        Round.roundID          = uuid();
+        Round.timestampStart   = Date.now();
+      }
+      
+      sState.lastAction = ACTION.go;
+      Round.header      = ROUND_HEADERS.nowPlaying;
+      
+      await this.setButtons({ state: sState });
+      
+      this.setState(sState);
+  
+      this.startTimers();
 
-    if (!this.startCaller())
-      throw new Error(ERROR.startCallerDoesNotReturnTrue);
+      resolve();
+    });
+  }
 
-    this.setState({ M });
+  /**
+   * @async
+   * @event       butPause
+   * @description handles the PAUSE button.
+   * 
+   * @returns {Promise<void>} voided Promise object.
+   * 
+   * @processing sets the last action to 'PAUSE', stops the Bingo caller's timer
+   * only and increments the pause counter of 1. Also, changes the status of the
+   * round and the round's details box header for 'PAUSED' then enables/disables 
+   * buttons.
+   */
+  butPause = async () => {
+    return new Promise (async resolve => {
+      const sState  = { ...this.state };
+      const Round   = sState.round;
+      
+      sState.lastAction  = ACTION.pause;
+      
+      await this.stopTimers(sState.lastAction);
+
+      Round.header  = ROUND_HEADERS.paused;
+      Round.paused++;
+  
+      await this.setButtons({ state: sState });
+      this.setState(sState);
+
+      resolve();
+    });  
+
+  }
+
+  /**
+   * @async
+   * @event       butReset
+   * @description handles the RESET button.
+   * 
+   * @param {Event} ev triggered event.
+   * 
+   * @returns {Promise<void>} voided Promise object.
+   * 
+   * @processing sets the last action to 'RESET' then reset the round to
+   * its initial state.
+   * 
+   */
+  butReset = async () => {
+    const sState = { ...this.state };
+
+    sState.lastAction  = ACTION.reset;
+
+    await this.resetRound({ state: sState });
+    this.setState(sState)
+  }
+  
+  /**
+   * @event       butChangeDelay
+   * @summary     handles the RAISE DELAY and DROP DELAY buttons.
+   * @description raises or drop the delay between calls.
+   * 
+   * @param {Event} ev event triggered
+   * 
+   * @processing changes the delay and update the screen.
+   */
+  butChangeDelay = async ev => {
+    return new Promise(async resolve => {
+      const sState      = { ...this.state };
+
+      await this.changeDelay({ state: sState, target: ev.target})
+
+      this.setState(sState);
+
+      resolve();
+    });
   }
 
   /**
@@ -170,180 +246,220 @@ class BingoCaller extends Component {
    * 
    * @todo everything!
    */
-  log = () => {
+   log = () => {
 
-  }
-
-  /**
-   * @event       pauseRound
-   * @description pause the active round.
-   * 
-   * @processing stop the Bingo caller's timer and increment the pause counter
-   * of 1.  Also, changes the status of the round for PAUSED, disables the PAUSE
-   * button and enables the GO button.
-   */
-  pauseRound = () => {
-    const M = { ...this.state };
-
-    this.stopCaller();
-    M.round.paused++;
-    M.round.status = ROUND_STATUS.paused
-    this.setButtons({ state: M });
-
-    this.setState({ M });
-  }
-
-  /**
-   * 
-   * @param {Event} ev event triggered
-   * 
-   * @processing starts by computing the new delay. When delay goes out of range
-   * the update is canceled. When reaching minimum delay allowed the drop delay
-   * button is disabled. When reaching the maximum the raise delay button is
-   * disabled. In all cases of raise, the drop delay button is enabled and in
-   * all cases of drop, the raise delay button is enabled.
-   */
-  raiseDropDelay = ev => {
-    const ModState    = { ...this.state };
-    const ActualDelay = ModState.round.delayCalls;
-    let   newDelay    = 0;
-
-    switch(ev.target.id) {
-      case 'dropDelay':
-        newDelay = ActualDelay - CALLER_DELAY.skip;
-
-        if (newDelay <= CALLER_DELAY.min) {
-          ModState.isDisabled.dropDelay = true;
-        }
-        
-        ModState.isDisabled.raiseDelay = false;
-        ModState.round.delayCalls = newDelay;
-        
-        break;
-
-      default:
-        // By default we raise the time
-        newDelay = ActualDelay + CALLER_DELAY.skip;
-
-        if (newDelay >= CALLER_DELAY.max) {
-          ModState.isDisabled.raiseDelay = true;
-        }
-
-        ModState.isDisabled.dropDelay  = false;
-        ModState.round.delayCalls   = newDelay;
-        break;
-    }
-    this.setState({ ModState });
-  }
-
-  /**
-   * @method      resetRound
-   * @summary     resets the round.
-   * @description called by the RESET and the CANCEL buttons.
-   * 
-   * @param {Event} ev triggered event.
-   * 
-   * @processing Enables the GO button and disables the RESET button. Then,
-   * reinitializes all round property's properties and
-   * reinitializes the caller's Bingo card to its initial state. Bydoing so the screen updates automatically.
-   * 
-   */
-  resetRound = () => {
-    const M = { ...this.state };
-
-    this.reinitializeRoundStats({ state: M });
-    this.reinitializeCard({ state: M });
-    this.setButtons({ state: M });
-    this.setState({ M })
   }
   
   /**
-   * @method      startCaller
-   * @description starts the Bingo caller.
+   * @async
+   * @method      resetRound
+   * @description reset the round's stats, card and buttons status to initial state.
    * 
-   * @returns {boolean} true if the Bingo caller starts with success.
+   * @param {*} options options = { state: this.state }
    * 
-   * @processing displays a count down of 3 seconds, then calls the numbers from
-   * the previously shuffled list; delaying the calls as per delay settled by
-   * user. The numbers are called in order, from the beginning to the end of the
-   * list. The method also updates the list of called balls, the Bingo card
-   * with a hit mark on the number called and the time elapsed. The method stops
-   * by itslef when all numbers are called. In this last case, the status
-   * 'ALL BALLS CALLED' is assigned as the reason the round ended.
+   * @returns {Promise<void>} voided promise object.
+   * 
+   * @processing reinitializes the round's statistics, the Bingo caller's card
+   * and enables/disables buttons.
+   * 
+   */
+  resetRound = async (options = { state: this.state }) => {
+    return new Promise(async resolve => {
+      const sState = options.state;
+  
+      await this.reinitializeRoundStats({ state: sState });
+      await this.reinitializeCard({ state: sState });
+      await this.setButtons({ state: sState });
+
+      resolve();
+
+    });
+  }
+
+  /**
+   * @async
+   * @method      startTimers
+   * @description starts the Bingo caller's timer and the round's timer.
+   * 
+   * @returns {Promise<void>} voided Promise object.
+   * 
+   * @processing displays a count down of 3 seconds, then starts 2 timers : one
+   * used to call the numbers and another one to calculate the round's total
+   * time. 
+   * 
+   * THE CALLER'S TIMER
+   * ------------------
+   * This timer is used to call the numbers. The numbers called are the one from
+   * the previously shuffled list. They are called in order, from the beginning
+   * to the end of the list. The delay between the calls is the one settled by
+   * the user. This timer also updates the list of called balls and the Bingo
+   * card. It stops automatically when all the numbers are called. In this last
+   * case, the reason 'ALL BALLS CALLED' is assigned as the reason the round
+   * ended. In case the round is paused, this timer is stopped.
+   * 
+   * THE ROUND'S TIMER
+   * -----------------
+   * This timer is to calculate and display the total time elapsed during the
+   * round, including pauses, in the 'm:ss' format.
+   * 
+   * FORMULAS
+   * --------
+   * Time elapsed = Timestamp now - Timestamp start / 1000.
+   * minutes = floor Time elapsed / 60
+   * seconds = floor Time elapsed - (minutes * 60)
    * 
    * @todo 3 seconds countdown.
    */
-  startCaller = () => {
-    const M         = { ...this.state };
-    const Round     = M.round;
-    const Interval  = Round.delayCalls * 1000; // The timer uses milliseconds.
-    const EndOfList = ALL_BALLS.length - 1;
-    let   pos       = -1;
+  startTimers = async () => {
 
+    const EndOfList = ALL_BALLS.length - 1;
+    const Interval  = this.state.round.delayCalls * 1000; // The timer uses milliseconds.
     
-    CallerTimer = setInterval(() => {
-      pos       = Round.callerPosition;
+    if (!ElapsedTimer) {
+      ElapsedTimer = setInterval(() => {
+
+        const sState = { ...this.state };
+
+        let   minutes = 0;
+        let   seconds = 0;
+        let   tE      = 0;
+
+        // Time is converted from miliseconds to seconds upon retrieval..
+        tE = (Math.floor(Date.now() - this.state.round.timestampStart) / 1000);
+
+        // Displayed in 'm:ss' format
+        minutes = Math.floor(tE / 60);
+        seconds = Math.floor(tE - (minutes * 60));
+       
+        sState.round.timeElapsed = String(minutes) + ':' + String(seconds).padStart(2, '0');
+        this.setState(sState);
+
+      }, 1000);
+    }
+
+    CallerTimer = setInterval(async () => {
+      const sState  = { ...this.state };
+      
+      const Round   = sState.round;
+      let   pos     = Round.callerPosition;
+      
       const Num = Round.shuffledBalls[pos];
 
       Round.ballsCalled.push(Num);
-      this.updateCard({ State: M, Num: Num });
-      
+      await this.updateCard({ State: sState, Num: Num });
+
       if (pos === EndOfList) {
-        Round.wayEnded = ENDING_STATE.noMoreBalls;
-        this.endRound();
-      }
-      else {
+        sState.lastAction = ACTION.end;
+        Round.wayEnded    = ENDING_STATE.noMoreBalls;
+        await this.terminateRound({ state: sState });
+        
+      } else {
         Round.callerPosition++;
-        this.setState({ M });
       }
+      
+      this.setState(sState);
+
     }, Interval);
-
-    return true;
-  }
-
-  /**
-   * @method      stopCaller
-   * @description stops the Bingo caller.
-   * 
-   * @returns {void}
-   * 
-   * @processing kills the Bingo caller's timer.
-   */
-  stopCaller = () => {
-    clearInterval(CallerTimer);
-    CallerTimer = null;
-  }
-
-  /**
-   * @method      updateCard
-   * @description updates the bingo card with mark on the number called.
-   * 
-   * @processing finds the number called in the list and adds a hit mark to it.
-   * 
-   * @returns {void}
-   */
-  updateCard = (options = updateCardOptions) => {
-    const { State, Num } = options
     
-    let Card = State.card;
-    let pos = Card.findIndex(number => number.num === Num);
+  }
 
-    Card[pos].hit = true;
+  /**
+   * @async
+   * @method      stopTimers
+   * @description stops the timers.
+   * 
+   * @param {ACTION} why reason why the timers need to be stopped (use ACTION const);
+   * 
+   * @returns {Promise<boolean>} resolve true if goes trought; throw in case of error.
+   * 
+   * @throws 'Error in stopTimers()' + error's stack.
+   * 
+   * @processing kills the Bingo caller's timer. Then, if the reason to stop the
+   * timers is not that the game is paused, the round's timer is also stopped.
+   * 
+   */
+  stopTimers = async (why = ACTION.end) => {
+    return new Promise(resolve => {
+      try {
+        clearInterval(CallerTimer);
+        CallerTimer = undefined;
+    
+        if (why !== ACTION.pause) {
+          clearInterval(ElapsedTimer);
+          ElapsedTimer = undefined;
+        }
+    
+        resolve(true);
+
+      } catch(error) {
+        throw new Error('ERROR in stopTimers()', error.stack);
+      }
+    });
+  }
+
+  /**
+   * @async
+   * @method      terminateRound
+   * @description terminate a round.
+   * 
+   * @param options options={ state: this.state }.
+   * 
+   * @returns {Promise<void>}
+   * 
+   * @processing terminating a round means : stopping all timers, retrieving
+   * datas to compile the statistics of the round, compiling round's statistics,
+   * changing the header of the Round's details box to 'LAST ROUND PLAYED',
+   * changing the round's status for 'END' and set the disabled property of the
+   * buttons.
+   * 
+   * Datas to retrieve : numeric timestamp, short text timestamp.
+   * 
+   * Stats to compile : total round time.
+   * 
+   * formula : total round time = timestamp end - timestamp start.
+   * 
+   * CAN NOT BE MOVED TO A SEPRATE MODULE (using 'this').
+   * 
+   */
+  terminateRound = async (options = { state: this.state }) => {
+    return new Promise(async resolve => {
+      const sState  = options.state;
+      const Round   = sState.round;
+  
+      // All timers need to be stopped before continuing.
+      await this.stopTimers()
+      
+      Round.header        = ROUND_HEADERS.last;
+      Round.dateTimeEnd   = GetDate.getShort();
+      Round.timestampEnd  = Date.now();
+      Round.totalTime     = (Round.timestampEnd - Round.timestampStart)
+      
+      await this.setButtons({ state: sState });
+      resolve();
+    });
+  }
+
+  delayChanged = ev => {
+    console.log('DELAY CHANGED!');
   }
 
   render() {
-    const State           = { ...this.state };
-    const BallsCalled     = State.round.ballsCalled;
-    const cancelDisabled  = State.isDisabled.cancel;
-    const DelayCalls      = State.round.delayCalls;
-    const DropDisabled    = State.isDisabled.dropDelay;
-    const GoDisabled      = State.isDisabled.go;
-    const RaiseDisabled   = State.isDisabled.raiseDelay;
-    const RoundID         = State.round.roundID;
-    const RoundHeader     = State.round.header;
-    const TimeStarted     = State.round.dateTimeStart;
-    const TimeElapsed     = State.round.timeElapsed;
-    const TimeEnded       = State.round.dateTimeEnd;
+    const sState          = this.state;
+    const Round           = sState.round;
+    const isDisabled      = sState.isDisabled;
+
+    const BallsCalled     = Round.ballsCalled;
+    const cancelDisabled  = isDisabled.cancel;
+    const DelayCalls      = Round.delayCalls;
+    const DropDisabled    = isDisabled.dropDelay;
+    const GoDisabled      = isDisabled.go;
+    const Paused          = Round.paused;
+    const RaiseDisabled   = isDisabled.raiseDelay;
+    const RoundID         = Round.roundID;
+    const RoundHeader     = Round.header;
+    const TimeStarted     = Round.dateTimeStart;
+    const TimeElapsed     = Round.timeElapsed;
+    const TimeEnded       = Round.dateTimeEnd;
     const TotalBalls      = ALL_BALLS.length;
     const TotalBallCalled = BallsCalled.length;
     
@@ -351,23 +467,23 @@ class BingoCaller extends Component {
     // total amount of balls to call - total amount of balls called.
     const BallsLeft   = TotalBalls - TotalBallCalled;
     
-    const RoundTime   = TotalBalls * DelayCalls;
+    const RoundTime   = Math.floor(TotalBalls * DelayCalls);
     let   ballsCalled = [];
     let   lastBall    = '';
     let   lastNumber  = 0;
 
     //////////////////////////////////////////////
-    // TO REVIEW
+    // #B4D001 (good results, but not happy)
     //////////////////////////////////////////////
     if (TotalBallCalled > 0) {
       lastNumber  = BallsCalled[BallsCalled.length-1];
       lastBall    = getLetterOf(lastNumber) + String(lastNumber);
     }
     
-    BallsCalled.forEach(item => ballsCalled.push(<Ball key={item} number={item} />));
+    BallsCalled.forEach(item => ballsCalled.unshift(<Ball key={item} number={item} />));
     //////////////////////////////////////////////
     //////////////////////////////////////////////
-
+    
     return (
       <div className='Container'>
         <div className='Content'>
@@ -380,6 +496,7 @@ class BingoCaller extends Component {
               <p>Time started     : {TimeStarted}</p>
               <p>Time ended       : {TimeEnded}</p>
               <p>Time elapsed     : {TimeElapsed}</p>
+              <p>Time paused      : {Paused}</p>
               <p>Ball left        : {BallsLeft}/{TotalBalls}</p>
               <p>Last ball drawn  : {lastBall}</p>
             </div>
@@ -390,7 +507,7 @@ class BingoCaller extends Component {
               <button 
                 id        = "raiseDelay"
                 className = "DelayButton"
-                onClick   = {this.raiseDropDelay}
+                onClick   = {this.butChangeDelay}
                 disabled  = {RaiseDisabled}
                 >
                   &#9650;
@@ -400,12 +517,13 @@ class BingoCaller extends Component {
                 type      = "text"
                 className = "DelayBox"
                 value     = {DelayCalls}
-                readOnly={true} />
+                onInput   = {this.delayChanged}
+                readOnly  ={true} />
 
               <button 
                 id        = "dropDelay"
                 className = "DelayButton"
-                onClick   = {this.raiseDropDelay}
+                onClick   = {this.butChangeDelay}
                 disabled  = {DropDisabled}
                 >&#9660;
               </button>
@@ -416,31 +534,31 @@ class BingoCaller extends Component {
                 id        = "cmdGO"
                 className = "ActionButton"
                 disabled  = {GoDisabled}
-                onClick   = {this.goContinue}
+                onClick   = {this.butGo}
                 >
                   GO
               </button>
               <button 
                 id        = "cmdRESET"
                 className = "ActionButton"
-                disabled  = {State.isDisabled.reset}
-                onClick   = {this.resetRound}
+                disabled  = {isDisabled.reset}
+                onClick   = {this.butReset}
                 >
                   RESET
               </button>
               <button 
                 id        ="cmdPAUSE"
                 className = "CancelButton"
-                disabled  = {State.isDisabled.pause}
-                onClick   = {this.pauseRound}
+                disabled  = {isDisabled.pause}
+                onClick   = {this.butPause}
                 >
                   PAUSE
               </button>
               <button 
                 id        = "cmdSTOP"
                 className = "CancelButton"
-                disabled  = {State.isDisabled.endRound}
-                onClick   = {this.endRound}
+                disabled  = {isDisabled.endRound}
+                onClick   = {this.butEndRound}
                 >
                   END ROUND
               </button>
@@ -449,7 +567,7 @@ class BingoCaller extends Component {
                 id        = "cmdCANCEL"
                 className = "CancelButton"
                 disabled  = {cancelDisabled}
-                onClick   = {this.cancelRound}
+                onClick   = {this.butCancel}
                 >
                   CANCEL
               </button>
@@ -459,7 +577,7 @@ class BingoCaller extends Component {
               {ballsCalled}
             </div>
 
-            <CardTemplate bingoCard={State.card} />
+            <CardTemplate bingoCard={sState.card} />
                 
           </div>
         </div>
@@ -468,9 +586,4 @@ class BingoCaller extends Component {
   }
 }
 
-export {
-  BingoCaller as default,
-  CALLER_DELAY,
-  InitialState, 
-  ROUND_HEADERS, ROUND_STATUS
-}
+export default BingoCaller;

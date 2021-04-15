@@ -1,12 +1,31 @@
+***
 # Bingo caller
 
-Simple bingo caller.
+Simple bingo caller : shuffles the numbers and draws them 1 by 1.
 
-Shuffle the numbers and call them 1 by 1 each 3 seconds.
+1. Set a delay between the calls using the arrow buttons
+2. Click on the '**GO**' button
+3. Use the '**PAUSE**' button to temporary halt the game. <u>You can pause a round to adjust the delay between calls</u>. Click on '**GO**' to restart the caller!
+
+At anytime, during a round, you can use the '**END ROUND**' and '**CANCEL**' buttons. **END ROUND** terminates the round, compiles some datas and displays the details in the round's information box. To begin a new round use the **RESET** or **CANCEL** button. **CANCEL** terminates the round and resets the screen; ready for a new round.
+
+### SHUFFLING
+
+The shuffling is done using Javascript Math.random() function. All numbers are originally listed in order, from 1 to 75, in an array. The algorithm goes this way :
+
+1. two different numbers from 0 to 74 are chosen randomly
+2. In the array, the numbers located at the positions are simply switched
+3. this process is repeated 225 times.
+
+Credits : Special Thanks to
+* BuGee <small>(*Twitch*)</small> for helping with the shuffling algorithms and moral support.
+* caLLowCreation <small>(*Twitch*)</small> for letting me post on his Discord server for help.
+* Kottikärry <small>(*Discord*)</small> for helping understanding JS and React.
+* MooFee <small>(*Twitch*)</small> for helping with the hardest of the CSS.
 
 
-
-
+***
+***
 ***
 # Getting Started with Create React App
 

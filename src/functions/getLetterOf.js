@@ -1,22 +1,38 @@
+/**
+ * @module        getLetterOf
+ * @file          getLetterOf.js
+ * @fileoverview  contains functions and subroutines to retrieve a letter attached to a bingo number.
+ * 
+ * @exports getLetterOf()
+ */
+
+/**
+ * @constant INVALID_NUMBER
+ * @description used to throw an error.
+ */
+const INVALID_NUMBER = 'invalid bingo number!';
 
 /**
  * @function    getLetterOf
- * @description returns the letter a Bingo number is attached to
- * .
+ * @description returns the letter a Bingo number is attached to.
+ * 
  * @param {number} number the number.
  * 
  * @returns {string} B, I, N, G or O.
  * 
- * @processing returns B if number is from 1 to 50, I if from 16 to 30,
- * N if from 31 to 45, G if from 46 to 60 and O if from 61 to 75. Throws an
- * error if number passed in is out of range.
+ * @processing validates the number passed in parameter to return the letter
+ * attached to it. Returns:
+ *    'B' if number is from 1 to 15
+ *    'I' if number is from 16 to 30
+ *    'N' if number is from 31 to 45
+ *    'G' if number is from 46 to 60
+ *    'O' if number is from 61 to 75.
+ * 
+ * Throws an error if number passed in is out of this range.
  * 
  * @throws 'invalid bingo number!'
  * 
  */
-
-const INVALID_NUMBER = 'invalid bingo number!';
-
 const getLetterOf = (number) => {
   let letter  = '';
 

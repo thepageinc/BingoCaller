@@ -81,11 +81,11 @@ html {
   --delayButton-width       : 32px;
 
   --drawnNum-bgcolor        : #003500;
-  --drawnNum-borders        : 2px solid yellow;
+  --drawnNum-borders        : 1px solid yellow;
   --drawnNum-borders-rad    : 5px;
   --drawnNum-direction      : rtl;
-  --drawnNum-height         : calc(var(--hitSpot-height) + 6px);
-  /* --drawnNum-width          : 99.6%; */
+  --drawnNum-min-height     : calc(var(--hitSpot-height) + 6px);
+  --drawnNum-height         : auto;
   --drawnNum-width          : 70%;
 
   --drawnNum-margin         : 10px auto 10px auto;
@@ -113,7 +113,7 @@ html {
   --playground-bgcolor      : #000066;
   --playground-borders      : 5px outset #00AAAA;
   --playground-borders-rad  : 5px;
-  --playground-width        : auto;
+  --playground-width        : 100%;
   --playground-padding      : 0;
   --playground-margin       : 10px 0 0 0;
 
@@ -165,18 +165,22 @@ html {
   background-color  : var(--drawnNum-bgcolor);
   border            : var(--drawnNum-borders);
   border-radius     : var(--drawnNum-borders-rad);
-  direction         : var(--drawnNum-direction);
+  min-height        : var(--drawnNum-min-height);
   height            : var(--drawnNum-height);
   margin            : var(--drawnNum-margin);
   padding           : var(--drawnNum-padding);
   text-align        : var(--drawnNum-textAlign);
   width             : var(--drawnNum-width);
   
-  display           : inline-block;
-  scroll-behavior   : smooth;
-  
-  overflow-x        : scroll;
-  
+  display           : flex;
+  flex-wrap         : nowrap;
+  flex-direction    : row;
+  overflow-x        : hidden;
+  overflow-y        : hidden;
+}
+
+.Ball {
+  flex: 0 0 auto;
 }
 
 /** When a number is called */

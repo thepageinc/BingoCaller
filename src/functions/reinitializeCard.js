@@ -1,6 +1,9 @@
 /**
+ * @module        reinitializeCard
  * @file          reinitializeCard.js
  * @fileoverview  contains the subroutine to reset the caller's Bingo card.
+ * 
+ * @exports reinitializeCard()
  */
 
 import InitialState from "../objects/State";
@@ -15,28 +18,32 @@ const Options = {
 
 /**
  * @function    reinitializeCard
- * @description reset the caller's Bingo card to initial state.
+ * @description reinitializes the caller's Bingo card.
  * 
- * @returns {void}
+ * @returns {Promise<void>} voided Promise object.
  * 
- * @processing reinitializes the caller's Bingo card by setting the numbers as
- * not hit.
+ * @processing scan the card object and reinitialize the hit property, so no
+ * numbers are market on the Bingo caller's card.
  */
-const reinitializeCard = (options = Options) => {
-  // All scope's constants and variables are declared at the top.
+const reinitializeCard = async (options = Options) => {
+  return new Promise(resolve => {
 
-  const { state } = options;
-  let   card    = state.card;
-  let   goTrue  = true;
-  let   pos     = 0;
+    // All scope's constants and variables are declared at the top.
+    const { state } = options;
+    let   card    = state.card;
+    let   goTrue  = true;
+    let   pos     = 0;
+  
+    while (goTrue) {
+      pos = card.findIndex(number => number.hit === true);
+      if (pos > -1) 
+        card[pos].hit = false;
+      else
+        goTrue = false;
+    }
 
-  while (goTrue) {
-    pos = card.findIndex(number => number.hit === true);
-    if (pos > -1) 
-      card[pos].hit = false;
-    else
-      goTrue = false;
-  }
+    resolve();
+  });
 };
 
 export default reinitializeCard;

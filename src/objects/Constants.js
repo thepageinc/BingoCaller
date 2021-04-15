@@ -1,15 +1,24 @@
 /**
  * @module        Constants
  * @file          Constants.js
- * @fileoverview  contains all constants of the program.
+ * @fileoverview  contains all constants of the program BUT the state.
  * 
+ * @exports ACTION
  * @exports ALL_BALLS
  * @exports CALLER_DELAY
  * @exports ENDING_STATE
- * @exports ERROR
  * @exports ROUND_HEADERS
- * @exports ROUND_STATUS
  */
+
+const ACTION = {
+  ballCalled  : 'BALL CALLED',
+  cancel      : 'CANCEL',
+  end         : 'END',
+  go          : 'GO',
+  idle        : 'IDLE',
+  pause       : 'PAUSE',
+  reset       : 'RESET',
+};
 
 /**
  * @constant    ALL_BALLS
@@ -30,9 +39,9 @@
  * 
  */
 const CALLER_DELAY = {
-  init  : 0.1,
+  init  : 3,
   max   : 8,
-  min   : 1,
+  min   : 3,
   skip  : 0.5
 };
 
@@ -48,38 +57,19 @@ const ENDING_STATE = {
 };
 
 /**
- * @constant ERROR
- * @description contains all error threw during the program execution.
- */
-const ERROR = {
-  startCallerDoesNotReturnTrue : 'PROGRAMMING ERROR startCaller() failed in goContinue().',
-  programHalted : 'PROGRAM HALTED',
-
-};
-
-/**
  * @constant    ROUND_HEADERS
  * @description used to set the round's details box title.
  */
 const ROUND_HEADERS = {
-  next        : 'AWAITING NEXT ROUND',
   last        : 'LAST ROUND PLAYED',
-  nowPlaying  : 'NOW PLAYING'
-};
-
-/**
- * @constant    ROUND_STATUS
- * @description used to set and validate the status of the round.
- */
- const ROUND_STATUS = {
-  active    : 1,
-  noRound   : 0,
-  paused    : 2
+  next        : 'AWAITING NEXT ROUND',
+  nowPlaying  : 'NOW PLAYING',
+  paused      : 'PAUSED'
 };
 
 export {
-  ALL_BALLS,
+  ACTION, ALL_BALLS,
   CALLER_DELAY,
-  ENDING_STATE, ERROR,
-  ROUND_HEADERS, ROUND_STATUS
+  ENDING_STATE,
+  ROUND_HEADERS
 }
