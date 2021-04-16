@@ -1,7 +1,7 @@
 html {
-  --content-max-width       : 98%;
+  --content-max-width       : 99%;
 
-  --container-bgcolor       : rgb(0, 0, 100);
+  --container-bgcolor       : rgb(0, 0, 200);
   --container-border-color  : rgb(0, 255, 255);
 
   --footer-bgcolor          : rgb(0, 0, 100);
@@ -38,12 +38,14 @@ footer p {
 
 .Container {
   background-color  : var(--container-bgcolor);
+  padding : 0 5px 0 5px;
 }
 
 .Content {
-  /* border            : 1px dashed white; */
+  border            : 1px dashed white;
   box-shadow        : var(--box-shadow);
   margin            : 10px auto 0 auto;
   padding           : 0 0 0 0;
   width             : var(--content-max-width);
+  display: inline-block;
 }

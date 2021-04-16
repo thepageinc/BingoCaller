@@ -15,7 +15,7 @@ import getCardObject from '../objects/objBingoCard';
  */
  const ButtonList = {
   cancel      : true,
-  dropDelay   : true,
+  dropDelay   : false,
   endRound    : true,
   go          : false,
   pause       : true,
@@ -53,9 +53,10 @@ const InitialRound = {
  */
  const InitialState = {
   card          : getCardObject(),
-  round         : InitialRound,
+  isDisabled    : ButtonList,
   lastAction    : ACTION.idle,
-  isDisabled    : ButtonList
+  muteCaller    : false,
+  round         : InitialRound,
 };
 
 export default InitialState;

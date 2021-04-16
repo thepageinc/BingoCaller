@@ -37,7 +37,7 @@ html {
   --CancelButton-width      : auto;
 
   --card-bgcolor            : #004400;
-  --card-borders            : 3px solid gold;
+  --card-borders            : 2px solid gold;
   --card-height             : fit-content;
   --card-width              : fit-content;
 
@@ -70,7 +70,7 @@ html {
   --delayButton-width       : 32px;
 
   --drawnNum-bgcolor        : #003500;
-  --drawnNum-borders        : 1px solid yellow;
+  --drawnNum-borders        : 2px solid gold;
   --drawnNum-borders-rad    : 5px;
   --drawnNum-direction      : rtl;
   --drawnNum-min-height     : calc(var(--hitSpot-height) + 6px);
@@ -94,20 +94,15 @@ html {
   --hitSpot-height          : 45px;
   --hitSpot-width           : 45px;
 
-  --mainScreen-bgcolor      : rgb(0, 0, 200);
-  --mainScreen-borders      : none;
-  --mainScreen-height       : fit-content;
-  --mainScreen-width        : auto;
-
   --playground-bgcolor      : #000066;
-  --playground-borders      : 5px outset #00AAAA;
+  --playground-borders      : 5px outset #0AA;
   --playground-borders-rad  : 5px;
   --playground-width        : 100%;
-  --playground-padding      : 0;
+  --playground-padding      : 0 0 10px 0;
   --playground-margin       : 10px 0 0 0;
 
   --roundDetails-bgcolor    : transparent;
-  --roundDetails-borders    : 1px outset #00FFFF;
+  --roundDetails-borders    : 1px outset #0FF;
   --roundDetails-height     : 230px;
   --roundDetails-margins    : 0 0 10px 0;
   --roundDetails-paddings   : 0 0 5px 0;
@@ -115,7 +110,7 @@ html {
   --roundDetails-width      : 50%;
 
   --roundOptions-bgcolor      : transparent;
-  --roundOptions-borders      : 1px solid #fff;
+  --roundOptions-borders      : 1px solid #0ff;
   --roundOptions-borders-rad  : 5px;
   --roundOptions-height       : var(--roundDetails-height);
   --roundOptions-margins      : var(--roundDetails-margins);

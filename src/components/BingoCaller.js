@@ -6,15 +6,16 @@
  * 
  * @exports BingoCaller
  * 
+ * @todo Text-to-Speech (in progress).
  * @todo URGENT - the page's styling.. the Bingo Card's page's styling, not mine.. *sigh*
  * @todo 3 seconds countdown before starting the round.
  * @todo pop-up confirmation to end/cancel a round.
- * @todo Text-to-Speech.
  * @todo #B4D001 - review called ball display.
  * @todo #B4D002 - rescript so changeDelay() uses setDelayButtons() from setButtons.js module.
  * @todo #B4D003 - better way I'm sure!
  * @todo #B4D004 - could be better... using an event which will trigger after change in this box to set the drop and raise buttons.
  * @todo #B4D005 - Switch to use classes instead of ids.
+ * @todo #B4D006 - same as #B4D003
  * @todo separate methods/functions from component, keeps only updating state's functions in component's class.
  * @todo logging (very last).
  */
@@ -28,6 +29,7 @@ import InitialState   from '../objects/State';
 
 import { Component }  from 'react';
 import uuid           from 'react-uuid';
+import spoken         from 'spoken/build/spoken';
 
 // All components are loaded at the top of the module.
 import Ball           from './Ball';
@@ -48,7 +50,9 @@ import updateCard             from '../functions/updateCard';
 import './BingoCaller.css';
 
 let CallerTimer   = undefined;
+/** @description used also as key to validate if a round is active.  */
 let ElapsedTimer  = undefined;
+
 
 /**
  * @class     BingoCaller
@@ -144,7 +148,9 @@ class BingoCaller extends Component {
       const sState  = { ...this.state };
       const Round   = sState.round;
       
-      if (sState.lastAction !== ACTION.pause) {
+      // Same button is used to start and restart.
+      if (!this.isRoundActive()) {
+        console.log('GO');
         await this.shuffleBalls({ state: sState });
         Round.dateTimeStart    = GetDate.getShort()
         Round.roundID          = uuid();
@@ -229,15 +235,36 @@ class BingoCaller extends Component {
    */
   butChangeDelay = async ev => {
     return new Promise(async resolve => {
-      const sState      = { ...this.state };
+      const sState = { ...this.state };
 
-      await this.changeDelay({ state: sState, target: ev.target})
+      await this.changeDelay({ state: sState, target: ev.target });
 
       this.setState(sState);
 
       resolve();
     });
   }
+
+  /**
+   * @event       callerVolume
+   * @description handles the caller's voice mute check box.
+   * 
+   * @returns {void}
+   * 
+   * @processing changes (reverses) the caller's voice volume configuration
+   * settings to TRUE or FALSE, depending on its actual value.
+   */
+  callerVolume = () => this.setState(({ muteCaller }) => ({ muteCaller: !muteCaller }));
+
+  /**
+   * @method      isRoundActive
+   * @description validate if a round is active.
+   * 
+   * @returns undefined if no active round.
+   * 
+   * @processing returns FALSE if the round's timer is not running.
+   */
+  isRoundActive = () => ElapsedTimer;
 
   /**
    * @method      log
@@ -249,7 +276,7 @@ class BingoCaller extends Component {
    * 
    * @todo everything!
    */
-   log = () => {
+  log = () => {
 
   }
   
@@ -291,22 +318,24 @@ class BingoCaller extends Component {
    * time. 
    * 
    * THE CALLER'S TIMER
-   * ------------------
+   * ******************
    * This timer is used to call the numbers. The numbers called are the one from
    * the previously shuffled list. They are called in order, from the beginning
    * to the end of the list. The delay between the calls is the one settled by
    * the user. This timer also updates the list of called balls and the Bingo
-   * card. It stops automatically when all the numbers are called. In this last
-   * case, the reason 'ALL BALLS CALLED' is assigned as the reason the round
-   * ended. In case the round is paused, this timer is stopped.
+   * card. It is important the numbers called are added from the top of the
+   * called balls list. Timer stops automatically when all the numbers are
+   * called. In this last case, the reason 'ALL BALLS CALLED' is assigned as the
+   * reason the round ended. In case the round is paused, this timer is stopped.
+   * A voice also calls the number.
    * 
    * THE ROUND'S TIMER
-   * -----------------
+   * *****************
    * This timer is to calculate and display the total time elapsed during the
    * round, including pauses, in the 'm:ss' format.
    * 
    * FORMULAS
-   * --------
+   * ********
    * Time elapsed = Timestamp now - Timestamp start / 1000.
    * minutes = floor Time elapsed / 60
    * seconds = floor Time elapsed - (minutes * 60)
@@ -344,11 +373,17 @@ class BingoCaller extends Component {
       const sState  = { ...this.state };
       
       const Round   = sState.round;
+      const Muted   = sState.muteCaller;
       let   pos     = Round.callerPosition;
+
       
       const Num = Round.shuffledBalls[pos];
 
       Round.ballsCalled.push(Num);
+
+      if (!Muted)
+        spoken.say(getLetterOf(Num) + '-' + String(Num), 'Google UK English Male');
+
       await this.updateCard({ State: sState, Num: Num });
 
       if (pos === EndOfList) {
@@ -456,6 +491,7 @@ class BingoCaller extends Component {
     const DelayCalls      = Round.delayCalls;
     const DropDisabled    = isDisabled.dropDelay;
     const GoDisabled      = isDisabled.go;
+    const MuteCaller      = sState.muteCaller;
     const Paused          = Round.paused;
     const RaiseDisabled   = isDisabled.raiseDelay;
     const RoundID         = Round.roundID;
@@ -520,8 +556,8 @@ class BingoCaller extends Component {
                 type      = "text"
                 className = "DelayBox"
                 value     = {DelayCalls}
-                /* onInput   = {this.delayChanged} #B4D004 */
-                readOnly  ={true} />
+                /* on???    = {this.delayChanged} #B4D004 */
+                readOnly  = {true} />
 
               <button 
                 id        = "dropDelay"
@@ -543,7 +579,7 @@ class BingoCaller extends Component {
               </button>
 
               <button 
-                id        ="cmdPAUSE"
+                id        = "cmdPAUSE"
                 className = "ActionButton"
                 disabled  = {isDisabled.pause}
                 onClick   = {this.butPause}
@@ -577,6 +613,21 @@ class BingoCaller extends Component {
                 >
                   CANCEL
               </button>
+              <br /> {/* #B4D006 */}
+              <input 
+                type            = "checkbox"
+                id              = "muteBox"
+                defaultChecked  = {MuteCaller}
+                defaultValue    = "Mute"
+                onChange        = {this.callerVolume}
+                >
+              </input>
+              
+              <label
+                htmlFor  = "muteBox"
+                >
+                  <small>mute caller</small>
+              </label>
             </div>
 
             <div id="DrawnNumbers">

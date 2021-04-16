@@ -39,7 +39,7 @@ const ACTION = {
  * 
  */
 const CALLER_DELAY = {
-  init  : 3,
+  init  : 4,
   max   : 8,
   min   : 3,
   skip  : 0.5

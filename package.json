@@ -12,6 +12,7 @@
     "react-scripts": "4.0.3",
     "react-uuid": "^1.0.2",
     "redux": "^4.0.5",
+    "spoken": "^1.1.17",
     "web-vitals": "^1.1.1"
   },
   "scripts": {

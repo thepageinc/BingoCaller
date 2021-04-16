@@ -46,22 +46,24 @@ html {
   --header-letterSpacing    : 5px;
   
   --h1-margins              : 0 0 0 0;
-  --h1-padding              : 0 0 0 0;
-  
+  --h1-paddings             : 0 0 0 0;
+  --h1-width                : 99%;
+
   --h2-margins              : var(--h1-margins);
-  --h2-padding              : var(--h1-padding);
+  --h2-padding              : var(--h1-paddings);
   
-  --h3-borders              : 1px outset #0FF;
+  --h3-borders              : 5px outset #0FF;
   --h3-borders-rad          : 5px;
   --h3-margins              : var(--h1-margins);
-  --h3-padding              : var(--h1-padding);
-  
+  --h3-paddings             : var(--h1-paddings);
+  --h3-width                : 100%;
+
   --h4-margins              : var(--h1-margins);
-  --h4-padding              : var(--h1-padding);
+  --h4-padding              : var(--h1-paddings);
   --h5-margins              : var(--h1-margins);
-  --h5-padding              : var(--h1-padding);
+  --h5-padding              : var(--h1-paddings);
   --h6-margins              : 5px 0 0 0;
-  --h6-padding              : var(--h1-padding);
+  --h6-padding              : var(--h1-paddings);
 
   --p-width : 98%;
 }
@@ -89,7 +91,8 @@ h1 {
   color             : var(--font-color-h1);
   font-size         : var(--font-size-h1);
   margin            : var(--h1-margins);
-  padding           : var(--h1-padding);
+  padding           : var(--h1-paddings);
+  width             : var(--h1-width);
 }
 
 h2 {
@@ -105,7 +108,8 @@ h3 {
   color             : var(--font-color-h3);
   font-size         : var(--font-size-h3);
   margin            : var(--h3-margins);
-  padding           : var(--h3-padding);
+  padding           : var(--h3-paddings);
+  width             : var(--h3-width);
 }
 
 h4 {
