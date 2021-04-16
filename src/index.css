@@ -13,7 +13,7 @@
 }
 
 html {
-  --app-width               : 98%;
+  --app-width               : 1024px;
   
   --body-bgcolor            : rgb(0, 0, 25);
   --body-margins            : 0 0 0 0;

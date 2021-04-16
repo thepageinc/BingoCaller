@@ -6,14 +6,17 @@
  * 
  * @exports BingoCaller
  * 
- * @todo  URGENT - the page's styling.. the Bingo Card's page's styling, not mine.. *sigh*
- * @todo  3 seconds countdown before starting the round.
- * @todo  pop-up confirmation to end a round.
- * @todo  the raise and drop delay buttons aren't settled properly on reseting; doesn't check the delay.
- * @todo  Text-to-Speech.
- * @todo  #B4D001 - review called ball display.
- * @todo  separate methods/functions from component, keeps only updating state's functions in component's class.
- * @todo  logging (very last).
+ * @todo URGENT - the page's styling.. the Bingo Card's page's styling, not mine.. *sigh*
+ * @todo 3 seconds countdown before starting the round.
+ * @todo pop-up confirmation to end/cancel a round.
+ * @todo Text-to-Speech.
+ * @todo #B4D001 - review called ball display.
+ * @todo #B4D002 - rescript so changeDelay() uses setDelayButtons() from setButtons.js module.
+ * @todo #B4D003 - better way I'm sure!
+ * @todo #B4D004 - could be better... using an event which will trigger after change in this box to set the drop and raise buttons.
+ * @todo #B4D005 - Switch to use classes instead of ids.
+ * @todo separate methods/functions from component, keeps only updating state's functions in component's class.
+ * @todo logging (very last).
  */
 
 // All custom objects and constants are imported at the top.
@@ -517,7 +520,7 @@ class BingoCaller extends Component {
                 type      = "text"
                 className = "DelayBox"
                 value     = {DelayCalls}
-                onInput   = {this.delayChanged}
+                /* onInput   = {this.delayChanged} #B4D004 */
                 readOnly  ={true} />
 
               <button 
@@ -538,22 +541,16 @@ class BingoCaller extends Component {
                 >
                   GO
               </button>
-              <button 
-                id        = "cmdRESET"
-                className = "ActionButton"
-                disabled  = {isDisabled.reset}
-                onClick   = {this.butReset}
-                >
-                  RESET
-              </button>
+
               <button 
                 id        ="cmdPAUSE"
-                className = "CancelButton"
+                className = "ActionButton"
                 disabled  = {isDisabled.pause}
                 onClick   = {this.butPause}
                 >
                   PAUSE
               </button>
+
               <button 
                 id        = "cmdSTOP"
                 className = "CancelButton"
@@ -562,7 +559,16 @@ class BingoCaller extends Component {
                 >
                   END ROUND
               </button>
-              
+              <br /> {/* #B4D003 */}
+              <button 
+                id        = "cmdRESET"
+                className = "ActionButton"
+                disabled  = {isDisabled.reset}
+                onClick   = {this.butReset}
+                >
+                  RESET
+              </button>
+
               <button 
                 id        = "cmdCANCEL"
                 className = "CancelButton"

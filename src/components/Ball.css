@@ -1,12 +1,37 @@
+html {
+  --ball-borders            : 1px solid #000;
+  --ball-height             : 50px;
+  --ball-margins            : 0 0 0 10px;
+  --ball-textAlign          : center;
+  --ball-width              : 50px;
+
+  --ballCenter-bgcolor      : #FFF;
+  --ballCenter-borders      : 1px solid #000;
+  --ballCenter-color        : #000;
+  --ballCenter-height       : calc(var(--ball-height) - 12px);
+  --ballCenter-margins      : 5px 0 0 0;
+  --ballCenter-width        : calc(var(--ball-height) - 12px);
+  --ballCenter-fontSize     : 16px;
+
+  --ballCenterP-fontWeight  : bolder;
+  --ballCenterP-margins     : 0 0 0 0;
+  --ballCenterP-padding     : 0 0 0 0;
+  --ballCenterP-textAlign   : center;
+  --ballCenterP-width       : 100%;
+}
+
 .Ball {
   /* background color sent using inline styling */
   border            : var(--ball-borders);
   border-radius     : 50%;
-  margin            : 0 1.5px 0 1.5px;
+  margin            : var(--ball-margins);
   height            : var(--ball-height);
   width             : var(--ball-width);
-  /* z-index           : 1; */
+  text-align        : var(--ball-textAlign);
+  
   display           : inline-block;
+  flex              : 0 0 auto;
+
 }
 
 .BallCenter {
@@ -15,18 +40,17 @@
   border-radius     : 50%;
   color             : var(--ballCenter-color);
   height            : var(--ballCenter-height);
-  margin            : 5px auto 0 auto;
+  margin            : var(--ballCenter-margins);
   width             : var(--ballCenter-width);
   font-size         : var(--ballCenter-fontSize);
-  /* z-index           : 2; */
 
   display           : inline-block;
 }
 
 .BallCenter p {
-  font-weight       : bolder;
-  margin            : 0 0 0 0;
-  padding           : 0;
-  text-align        : center;
-  width             : 100%;
+  font-weight       : var(--ballCenterP-fontWeight);
+  margin            : var(--ballCenterP-margins);
+  padding           : var(--ballCenterP-padding);
+  text-align        : var(--ballCenterP-textAlign);
+  width             : var(--ballCenterP-width);
 }

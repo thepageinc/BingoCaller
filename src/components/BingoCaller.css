@@ -22,17 +22,6 @@ html {
   --actionButton-height         : auto;
   --actionButton-width          : auto;
 
-  --ball-borders            : 1px solid #000;
-  --ball-height             : 50px;
-  --ball-width              : 50px;
-
-  --ballCenter-bgcolor      : #FFF;
-  --ballCenter-borders      : 1px solid #000;
-  --ballCenter-color        : #000;
-  --ballCenter-height       : 40px;
-  --ballCenter-width        : 40px;
-  --ballCenter-fontSize     : 16px;
-
   --CancelButton-active-bgcolor : #C00;
   --CancelButton-active-borders : inset;
   --CancelButton-active-scale   : scale(0.95, 0.95);
@@ -52,7 +41,7 @@ html {
   --card-height             : fit-content;
   --card-width              : fit-content;
 
-  --card-title-bgcolor      : darkblue;
+  --card-title-bgcolor      : black;
   --card-title-borders      : 2px solid purple;
   --card-title-borders-rad  : 5px;
 
@@ -86,7 +75,7 @@ html {
   --drawnNum-direction      : rtl;
   --drawnNum-min-height     : calc(var(--hitSpot-height) + 6px);
   --drawnNum-height         : auto;
-  --drawnNum-width          : 70%;
+  --drawnNum-width          : 76%; 
 
   --drawnNum-margin         : 10px auto 10px auto;
   --drawnNum-padding        : 5px 0 5px 0;
@@ -119,13 +108,18 @@ html {
 
   --roundDetails-bgcolor    : transparent;
   --roundDetails-borders    : 1px outset #00FFFF;
+  --roundDetails-height     : 230px;
+  --roundDetails-margins    : 0 0 10px 0;
+  --roundDetails-paddings   : 0 0 5px 0;
   --roundDetails-textAlign  : center;
   --roundDetails-width      : 50%;
 
   --roundOptions-bgcolor      : transparent;
   --roundOptions-borders      : 1px solid #fff;
   --roundOptions-borders-rad  : 5px;
-  --roundOptions-height       : fit-content;
+  --roundOptions-height       : var(--roundDetails-height);
+  --roundOptions-margins      : var(--roundDetails-margins);
+  --roundOptions-paddings     : var(--roundDetails-paddings);
   --roundOptions-width        : 49.50%;
 
 }
@@ -179,10 +173,6 @@ html {
   overflow-y        : hidden;
 }
 
-.Ball {
-  flex: 0 0 auto;
-}
-
 /** When a number is called */
 #HitMark {
   background-color  : var(--hitMark-bgcolor);
@@ -213,12 +203,12 @@ html {
   background-color  : var(--roundDetails-bgcolor);
   border            : var(--roundDetails-borders);
   border-radius     : 5px;
-  margin            : 0 0 10px 0;
-  padding           : 0 0 5px 0;
+  margin            : var(--roundDetails-margins);
+  padding           : var(--roundDetails-paddings);
   text-align        : var(--roundDetails-textAlign);
   width             : var(--roundDetails-width);
     min-width       : fit-content;
-  height            : fit-content;
+  height            : var(--roundDetails-height);
   float             : left;
 }
 
@@ -231,8 +221,11 @@ html {
   border            : var(--roundOptions-borders);
   border-radius     : var(--roundOptions-borders-rad);
   height            : var(--roundOptions-height);
+  margin            : var(--roundOptions-margins);
+  padding           : var(--roundOptions-paddings);
   width             : var(--roundOptions-width);
     min-width       : var(--roundOptions-width);
+  
   display           : inline-block;
   vertical-align    : top;
 }

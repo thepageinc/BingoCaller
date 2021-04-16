@@ -12,7 +12,7 @@ const Ball = (props) => {
 
   switch (true) {
     case number >=1 && number <=15:
-      bgcolor = '#FF4800';
+      bgcolor = '#FF4800'; 
       break;
   
     case number >=16 && number <=30:
@@ -38,7 +38,7 @@ const Ball = (props) => {
   return (
     <Fragment>
 
-    <div className="Ball" key={id} style={{ backgroundColor: bgcolor}}>
+    <div className="Ball" key={id} style={{ backgroundColor: bgcolor }}>
       <div className="BallCenter">
         <p>
           <small>{letter}</small>

@@ -1,17 +1,30 @@
+/**
+ * @module        CardTemplate
+ * @file          CardTemplate.js
+ * @fileoverview  contains the Bingo caller's card template.
+ * @description   generates the body of the Bingo caller's card.
+ * 
+ * @exports CardTemplate
+ * 
+ * @todo #B4D005 - Switch to use classes instead of ids when generating the card.
+ * 
+ */
 import Purify from 'dompurify';
 
 /**
  * @function    CardTemplate
  * @description Empty bingo card template.
  * 
- * @param {any} porps JSX props object.
+ * @param {any} props JSX props object.
  * 
  * @returns {JSX.Element} a Bingo Card as JSX element.
  * 
- * @processing generates the bingo caller card and marks numbers drawn if
- * applies. For this to happen, the card is generated from the state's 'card'
- * property, updated previously by the updateCard() method located in the
- * BingoCaller class. 
+ * @processing generates the bingo caller card and marking the numbers drawn,
+ * if applies. The final result is purified/filtered before displaying on
+ * screen.
+ * 
+ * @todo #B4D005 - Switch to use classes instead of ids.
+ * 
  */
 const CardTemplate = (props) => {
   // All scope's constants and variables are declared at the top, BUT
@@ -21,7 +34,7 @@ const CardTemplate = (props) => {
 
   for (const number of Card) {
     if (number.num <= 15) {
-      if (number.num === 1) HTMLCard += '<div id="Col"><div id="ColTitle">B</div>';
+      if (number.num === 1) HTMLCard += '<div id="Col"><div id="ColTitle" style={{ backgroundColor: "#ff4800" }}>B</div>';
 
       if (!number.hit) 
         HTMLCard += '<div id="HitBox">' + number.num + '</div>';

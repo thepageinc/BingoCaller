@@ -4,6 +4,8 @@
  * @fileoverview  module updating the delay and the informations depending on it.
  * 
  * @exports changeDelay subroutine.
+ * 
+ * @todo #B4D002 - rescript so changeDelay() uses setDelayButtons() from setButtons.js module.
  */
 
 import { CALLER_DELAY } from "../objects/Constants";
@@ -35,6 +37,7 @@ const Options = {
  * disabled. In all cases of raise, the drop delay button is enabled and in
  * all cases of drop, the raise delay button is enabled.
  * 
+ * @todo #B4D002 - rescript so changeDelay() uses setDelayButtons() from setButtons.js module.
  */
 const changeDelay = (options = Options) => {
   return new Promise(resolve => {

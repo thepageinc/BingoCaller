@@ -55,7 +55,7 @@ const TO    = ALL_BALLS.length;
 const getCardObject = () => {
 
   let card = [];
-  let num       = FROM;
+  let num  = FROM;
 
   while (num <= TO) {
     card.push({ num: num, hit: false });
