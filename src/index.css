@@ -15,14 +15,18 @@
 html {
   --app-width               : 1024px;
   
-  --body-bgcolor            : rgb(0, 0, 25);
+  --body-bgcolor            : #00a;
   --body-margins            : 0 0 0 0;
 
-  --box-shadow              : 0 10px 20px rgba(0,0,0,0.25), 0 6px 6px rgba(0,0,0,0.23);
+  --box-shadow              : 0 10px 20px rgba(0, 0, 0, 1), 0 6px 6px rgba(0, 0, 0, 0.23);
 
-  --button-bgcolor-default  : gray;
-  --button-borders-default  : 5px outset #00AAAA;
-  --button-disabled-bgcolor : #808080;
+  --button-bgcolor-default        : gray;
+  --button-borders-default        : 5px outset #00AAAA;
+
+  --button-disabled-bgcolor       : #808080;
+  --button-disabled-border-color  : #808080;
+  --button-disabled-border-styles : inset;
+  --button-disabled-color         : #A9A9A9;
 
   --font-color-default      : rgb(255, 225, 225);
   --font-color-h1           : rgb(255, 255, 255);
@@ -47,7 +51,7 @@ html {
   
   --h1-margins              : 0 0 0 0;
   --h1-paddings             : 0 0 0 0;
-  --h1-width                : 99%;
+  --h1-width                : auto;
 
   --h2-margins              : var(--h1-margins);
   --h2-padding              : var(--h1-paddings);
@@ -56,7 +60,7 @@ html {
   --h3-borders-rad          : 5px;
   --h3-margins              : var(--h1-margins);
   --h3-paddings             : var(--h1-paddings);
-  --h3-width                : 100%;
+  --h3-width                : auto;
 
   --h4-margins              : var(--h1-margins);
   --h4-padding              : var(--h1-paddings);
@@ -75,6 +79,13 @@ body {
   
   -webkit-font-smoothing  : antialiased;
   -moz-osx-font-smoothing : grayscale;
+}
+
+button:disabled {
+  background-color  : var(--button-disabled-bgcolor);
+  border-color      : var(--button-disabled-border-color);
+  border-style      : var(--button-disabled-border-styles);
+  color             : var(--button-disabled-color);
 }
 
 code {
@@ -110,6 +121,8 @@ h3 {
   margin            : var(--h3-margins);
   padding           : var(--h3-paddings);
   width             : var(--h3-width);
+
+  display:grid;
 }
 
 h4 {

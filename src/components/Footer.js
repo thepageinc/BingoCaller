@@ -6,9 +6,9 @@ import React from 'react';
  */
 const Footer = () => {
   return (
-    <header>
+    <footer>
       <small>&copy;2021 - YO! Casino</small>
-    </header>
+    </footer>
   );
 }
 

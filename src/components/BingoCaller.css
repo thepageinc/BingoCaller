@@ -1,11 +1,3 @@
-/*
-  STRUCTURE
-  
-  -local variables
-  -id
-  -class
-*/
-
 html {
   --actionButton-active-bgcolor : #005;
   --actionButton-active-borders : inset;
@@ -97,9 +89,9 @@ html {
   --playground-bgcolor      : #000066;
   --playground-borders      : 5px outset #0AA;
   --playground-borders-rad  : 5px;
-  --playground-width        : 100%;
-  --playground-padding      : 0 0 10px 0;
   --playground-margin       : 10px 0 0 0;
+  --playground-padding      : 0 0 10px 0;
+  --playground-width        : 99%;
 
   --roundDetails-bgcolor    : transparent;
   --roundDetails-borders    : 1px outset #0FF;
@@ -255,9 +247,9 @@ html {
 
 .ActionButton:disabled {
   background-color  : var(--button-disabled-bgcolor);
-  border-color      : #808080;
-  border-style      : inset;
-  color             : #A9A9A9;
+  border-color      : var(--button-disabled-border-color);
+  border-style      : var(--button-disabled-border-styles);
+  color             : var(--button-disabled-color);
 }
 
 .BingoCard {
@@ -297,9 +289,9 @@ html {
 
 .CancelButton:disabled {
   background-color  : var(--button-disabled-bgcolor);
-  border-color      : #808080;
-  border-style      : inset;
-  color             : #A9A9A9;
+  border-color      : var(--button-disabled-border-color);
+  border-style      : var(--button-disabled-border-styles);
+  color             : var(--button-disabled-color);
 }
 
 .DelayBox {
@@ -334,7 +326,15 @@ html {
 
 .DelayButton:disabled {
   background-color  : var(--button-disabled-bgcolor);
-  border-color      : #808080;
-  border-style      : inset;
-  color             : #A9A9A9;
+  border-color      : var(--button-disabled-border-color);
+  border-style      : var(--button-disabled-border-styles);
+  color             : var(--button-disabled-color);
+}
+
+/** #B4D007 - Really like to use this one instead of using 1 for each.. */
+button:disabled {
+  background-color  : var(--button-disabled-bgcolor);
+  border-color      : var(--button-disabled-border-color);
+  border-style      : var(--button-disabled-border-styles);
+  color             : var(--button-disabled-color);
 }

@@ -1,51 +1,106 @@
 html {
-  --content-max-width       : 99%;
+  /** #B4D008 --content-width has to be 99% to fit in? */
 
-  --container-bgcolor       : rgb(0, 0, 200);
-  --container-border-color  : rgb(0, 255, 255);
+  --container-bgcolor       : #f00;
+  --container-borders       : 1px solid #0ff;
+  --container-borders-rad   : 10px;
+  --container-boxShadow     : var(--box-shadow);
+  --container-color         : var(--font-color-default);
+  --container-fontSize      : var(--font-size-default);
+  --container-margins       : 5px auto 0px auto;
+  --container-paddings      : 15px 0px 25px 0px;
+  --container-textAlign     : center;
+  --container-width         : var(--app-width);
+  --container-display       : block;
+
+  /* --content-borders         : 1px dashed white; */
+  --content-borders         : none;
+  --content-boxShadow       : var(--box-shadow);
+  --content-margins         : 0 auto 0 auto;
+  --content-paddings        : 0;
+  --content-width           : 99%;
+  --content-display         : block;
 
   --footer-bgcolor          : rgb(0, 0, 100);
+  --footer-borders          : var(--container-borders);
+  --footer-borders-rad      : var(--container-borders-rad);
+  --footer-boxShadow        : var(--container-boxShadow);
+  --footer-color            : var(--container-color);
+  --footer-fontSize         : var(--container-fontSize);
+  --footer-margins          : var(--container-margins);
+  --footer-paddings         : var(--container-paddings);
+  --footer-textAlign        : var(--container-textAlign);
+  --footer-width            : var(--container-width);
+
+  --footerP-margins         : 10px auto 0px auto;
+  --footerP-textAlign       : center;
+  --footerP-fontSize        : var(--font-size-small);
 
   --header-bgcolor          : rgb(0, 0, 100);
-  --header-letter-spacing   : 5px;
+  --header-borders          : var(--container-borders);
+  --header-borders-rad      : var(--container-borders-rad);
+  --header-boxShadow        : var(--container-boxShadow);
+  --header-color            : var(--container-color);
+  --header-fontSize         : var(--container-fontSize);
+  --header-margins          : var(--container-margins);
+  --header-paddings         : var(--container-paddings);
+  --header-textAlign        : var(--container-textAlign);
+  --header-width            : var(--container-width);
 }
 
 footer {
   background-color  : var(--footer-bgcolor);
-}
-
-header {
-  background-color  : var(--header-bgcolor);
-}
-
-footer, header, .Container {
-  /* border            : 1px outset var(--container-border-color); */
-  border-radius     : 10px;
-  box-shadow        : var(--box-shadow);
-  color             : var(--font-color-default);
-  font-size         : var(--font-size-default);
-  margin            : 05px auto 0px auto;
-  padding           : 15px 0px 25px 0px;
-  text-align        : center;
-  width             : var(--app-width);
+  border            : var(--footer-borders);
+  border-radius     : var(--footer-borders-rad);
+  box-shadow        : var(--footer-boxShadow);
+  color             : var(--footer-color);
+  font-size         : var(--footer-fontSize);
+  margin            : var(--footer-margins);
+  padding           : var(--footer-paddings);
+  text-align        : var(--footer-textAlign);
+  width             : var(--footer-width);
 }
 
 footer p {
-  margin            : 10px auto 0px auto;
-  text-align        : center;
-  font-size         : var(--font-size-small);
+  margin            : var(--footerP-margins);
+  text-align        : var(--footerP-textAlign);
+  font-size         : var(--footerP-fontSize);
+}
+
+
+header {
+  background-color  : var(--header-bgcolor);
+  border            : var(--header-borders);
+  border-radius     : var(--header-borders-rad);
+  box-shadow        : var(--header-boxShadow);
+  color             : var(--header-color);
+  font-size         : var(--header-fontSize);
+  margin            : var(--header-margins);
+  padding           : var(--header-paddings);
+  text-align        : var(--header-textAlign);
+  width             : var(--header-width);
 }
 
 .Container {
   background-color  : var(--container-bgcolor);
-  padding : 0 5px 0 5px;
+  border            : var(--container-borders);
+  border-radius     : var(--container-borders-rad);
+  box-shadow        : var(--container-boxShadow);
+  color             : var(--container-color);
+  font-size         : var(--container-fontSize);
+  margin            : var(--container-margins);
+  padding           : var(--container-paddings);
+  text-align        : var(--container-textAlign);
+  width             : var(--container-width);
+
+  display           : var(--container-display);
 }
 
 .Content {
-  border            : 1px dashed white;
-  box-shadow        : var(--box-shadow);
-  margin            : 10px auto 0 auto;
-  padding           : 0 0 0 0;
-  width             : var(--content-max-width);
-  display: inline-block;
+  border            : var(--content-borders);
+  box-shadow        : var(--content-boxShadow);
+  margin            : var(--content-margins);
+  padding           : var(--content-paddings);
+  width             : var(--content-width);
+  display           : var(--content-display);
 }

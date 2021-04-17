@@ -16,6 +16,8 @@
  * @todo #B4D004 - could be better... using an event which will trigger after change in this box to set the drop and raise buttons.
  * @todo #B4D005 - Switch to use classes instead of ids.
  * @todo #B4D006 - same as #B4D003
+ * @todo #B4D007 - in BingoCaller.css
+ * @todo #B4D008 - in container.css
  * @todo separate methods/functions from component, keeps only updating state's functions in component's class.
  * @todo logging (very last).
  */
@@ -50,6 +52,7 @@ import updateCard             from '../functions/updateCard';
 import './BingoCaller.css';
 
 let CallerTimer   = undefined;
+
 /** @description used also as key to validate if a round is active.  */
 let ElapsedTimer  = undefined;
 
