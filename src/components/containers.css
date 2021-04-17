@@ -1,24 +1,24 @@
 html {
   /** #B4D008 --content-width has to be 99% to fit in? */
 
-  --container-bgcolor       : #f00;
-  --container-borders       : 1px solid #0ff;
+  --container-bgcolor       : #005;
+  --container-borders       : 1px solid var(--borders-color-default);
   --container-borders-rad   : 10px;
   --container-boxShadow     : var(--box-shadow);
   --container-color         : var(--font-color-default);
   --container-fontSize      : var(--font-size-default);
   --container-margins       : 5px auto 0px auto;
-  --container-paddings      : 15px 0px 25px 0px;
+  --container-paddings      : 10px 0px 10px 0px;
   --container-textAlign     : center;
   --container-width         : var(--app-width);
   --container-display       : block;
 
   /* --content-borders         : 1px dashed white; */
   --content-borders         : none;
-  --content-boxShadow       : var(--box-shadow);
+  --content-boxShadow       : none;
   --content-margins         : 0 auto 0 auto;
   --content-paddings        : 0;
-  --content-width           : 99%;
+  --content-width           : 98%;
   --content-display         : block;
 
   --footer-bgcolor          : rgb(0, 0, 100);
@@ -42,10 +42,14 @@ html {
   --header-boxShadow        : var(--container-boxShadow);
   --header-color            : var(--container-color);
   --header-fontSize         : var(--container-fontSize);
+  --header-letterSpacing    : 5px;
   --header-margins          : var(--container-margins);
   --header-paddings         : var(--container-paddings);
   --header-textAlign        : var(--container-textAlign);
+  --header-textTransform    : uppercase;
   --header-width            : var(--container-width);
+  
+
 }
 
 footer {

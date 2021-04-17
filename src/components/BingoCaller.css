@@ -8,6 +8,8 @@ html {
 
   --actionButton-bgcolor        : var(--button-bgcolor-default);
   --actionButton-borders        : var(--button-borders-default);
+  --actionButton-boxShadow      : var(--box-shadow);
+
   --actionButton-color          : #FFF;
   --actionButton-fontSize       : 22px;
   --actionButton-fontWeight     : bolder;
@@ -22,6 +24,7 @@ html {
 
   --CancelButton-bgcolor    : var(--button-bgcolor-default);
   --CancelButton-borders    : var(--button-borders-default);
+  --CancelButton-boxShadow  : var(--box-shadow);
   --CancelButton-color      : #FFF;
   --CancelButton-fontSize   : 22px;
   --CancelButton-fontWeight : bolder;
@@ -51,14 +54,15 @@ html {
   --delayBox-color          : var(--font-color-default);
   --delayBox-fontSize       : 30px;
   --delayBox-fontWeight     : bolder;
+  --delayBox-textAlign      : center;
   --delayBox-width          : 50px;
 
   --delayButton-bgcolor     : var(--button-bgcolor-default);
   --delayButton-borders     : var(--button-borders-default);
+  --delayButton-boxShadow   : var(--box-shadow);
   --delayButton-color       : var(--font-color-default);
   --delayButton-fontSize    : 30px;
   --delayButton-height      : 32px;
-  --delayBox-textAlign      : center;
   --delayButton-width       : 32px;
 
   --drawnNum-bgcolor        : #003500;
@@ -87,14 +91,14 @@ html {
   --hitSpot-width           : 45px;
 
   --playground-bgcolor      : #000066;
-  --playground-borders      : 5px outset #0AA;
+  --playground-borders      : 5px outset var(--borders-color-default);
   --playground-borders-rad  : 5px;
   --playground-margin       : 10px 0 0 0;
   --playground-padding      : 0 0 10px 0;
   --playground-width        : 99%;
 
   --roundDetails-bgcolor    : transparent;
-  --roundDetails-borders    : 1px outset #0FF;
+  --roundDetails-borders    : 1px outset var(--borders-color-default);
   --roundDetails-height     : 230px;
   --roundDetails-margins    : 0 0 10px 0;
   --roundDetails-paddings   : 0 0 5px 0;
@@ -102,7 +106,7 @@ html {
   --roundDetails-width      : 50%;
 
   --roundOptions-bgcolor      : transparent;
-  --roundOptions-borders      : 1px solid #0ff;
+  --roundOptions-borders      : 1px solid var(--borders-color-default);
   --roundOptions-borders-rad  : 5px;
   --roundOptions-height       : var(--roundDetails-height);
   --roundOptions-margins      : var(--roundDetails-margins);
@@ -222,10 +226,15 @@ html {
   text-align        : center;
 }
 
+#voiceList {
+  margin: 0 0 0 5px;
+}
+
 .ActionButton {
   background-color  : var(--actionButton-bgcolor);
   border            : var(--actionButton-borders);
   border-radius     : 5px;
+  box-shadow        : var(--actionButton-boxShadow);
   color             : var(--actionButton-color);
   font-size         : var(--actionButton-fontSize);
   font-weight       : var(--actionButton-fontWeight);
@@ -268,6 +277,7 @@ html {
   background-color  : var(--CancelButton-bgcolor);
   border            : var(--CancelButton-borders);
   border-radius     : 5px;
+  box-shadow        : var(--CancelButton-boxShadow);
   color             : var(--CancelButton-color);
   font-size         : var(--CancelButton-fontSize);
   font-weight       : var(--CancelButton-fontWeight);
@@ -308,6 +318,7 @@ html {
 .DelayButton {
   background-color  : var(--delayButton-bgcolor);
   border            : var(--delayButton-borders);
+  box-shadow        : var(--delayButton-boxShadow);
   color             : var(--delayButton-color);
   font-size         : var(--delayButton-fontSize);
   height            : var(--delayButton-height);

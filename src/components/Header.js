@@ -8,7 +8,7 @@ import React from 'react';
 const Header = () => {
   return (
     <header>
-      <h1>YO! Casino</h1>
+      <h1>YO! CASINO</h1>
     </header>
   );
 }

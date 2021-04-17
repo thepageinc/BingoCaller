@@ -6,10 +6,10 @@
  * 
  * @exports BingoCaller
  * 
- * @todo Text-to-Speech (in progress).
+ * @todo Text-to-Speech (in progress, need more voices options).
  * @todo URGENT - the page's styling.. the Bingo Card's page's styling, not mine.. *sigh*
  * @todo 3 seconds countdown before starting the round.
- * @todo pop-up confirmation to end/cancel a round.
+ * @todo a BETTER pop-up confirmation to end/cancel a round.
  * @todo #B4D001 - review called ball display.
  * @todo #B4D002 - rescript so changeDelay() uses setDelayButtons() from setButtons.js module.
  * @todo #B4D003 - better way I'm sure!
@@ -87,6 +87,11 @@ class BingoCaller extends Component {
   butCancel = async () => {
     return new Promise(async resolve => {
       const sState = { ...this.state };
+
+      // confirmation popup only if a round is active.
+      if (this.isRoundActive())
+        if (!window.confirm('Are you sur you want to cancel?'))
+          return resolve();
   
       sState.lastAction = ACTION.cancel;
   
@@ -617,20 +622,32 @@ class BingoCaller extends Component {
                   CANCEL
               </button>
               <br /> {/* #B4D006 */}
-              <input 
-                type            = "checkbox"
-                id              = "muteBox"
-                defaultChecked  = {MuteCaller}
-                defaultValue    = "Mute"
-                onChange        = {this.callerVolume}
-                >
-              </input>
-              
-              <label
-                htmlFor  = "muteBox"
-                >
-                  <small>mute caller</small>
-              </label>
+              <small>
+                <label
+                  htmlFor="voiceList"
+                  >
+                    voices
+                </label>
+                <select id="voiceList">
+                  <option defaultChecked={true} disabled={true}>To come..</option>
+                </select>
+
+                <label 
+                  htmlFor  = "muteBox"
+                  style={{ marginLeft: "5px" }}
+                  >
+                    <small>mute caller</small>
+                </label>
+
+                <input 
+                  type            = "checkbox"
+                  id              = "muteBox"
+                  defaultChecked  = {MuteCaller}
+                  defaultValue    = "Mute"
+                  onChange        = {this.callerVolume}
+                  >
+                </input>
+              </small>
             </div>
 
             <div id="DrawnNumbers">

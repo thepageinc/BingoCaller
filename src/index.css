@@ -13,10 +13,12 @@
 }
 
 html {
-  --app-width               : 1024px;
+  --app-width               : 1024px; /** 1024 - 20px of padding */
   
-  --body-bgcolor            : #00a;
+  --body-bgcolor            : #005;
   --body-margins            : 0 0 0 0;
+
+  --borders-color-default   : #0FF;
 
   --box-shadow              : 0 10px 20px rgba(0, 0, 0, 1), 0 6px 6px rgba(0, 0, 0, 0.23);
 
@@ -46,9 +48,6 @@ html {
   --font-size-nav           : 18px;
   --font-size-small         : 14px;
 
-  --header-textTransform    : uppercase;
-  --header-letterSpacing    : 5px;
-  
   --h1-margins              : 0 0 0 0;
   --h1-paddings             : 0 0 0 0;
   --h1-width                : auto;
@@ -56,7 +55,7 @@ html {
   --h2-margins              : var(--h1-margins);
   --h2-padding              : var(--h1-paddings);
   
-  --h3-borders              : 5px outset #0FF;
+  --h3-borders              : 5px outset var(--borders-color-default);
   --h3-borders-rad          : 5px;
   --h3-margins              : var(--h1-margins);
   --h3-paddings             : var(--h1-paddings);
